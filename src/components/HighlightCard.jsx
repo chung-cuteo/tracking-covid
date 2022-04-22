@@ -4,15 +4,14 @@ import CountUp from 'react-countup';
 
 const useStyles = makeStyles({
   wrapper: (props) => {
-    if (props.type === 'confirmed') return { borderLeft: '5px solid #c9302c' };
-    if (props.type === 'recovered') return { borderLeft: '5px solid #28a745' };
-    else return { borderLeft: '5px solid gray' };
+    if (props.type === 'confirmed') return { borderBottom: '5px solid #c9302c' };
+    else return { borderBottom: '5px solid gray' };
   },
   title: { fontSize: 18, marginBottom: 5 },
   count: { fontWeight: 'bold', fontSize: 18 },
 });
 
-export default function HighlightCard({ title, count, type }) {
+const HighlightCard = ({ title, count, type }) => {
   const classes = useStyles({ type });
   return (
     <Card className={classes.wrapper}>
@@ -27,3 +26,5 @@ export default function HighlightCard({ title, count, type }) {
     </Card>
   );
 }
+
+export default HighlightCard

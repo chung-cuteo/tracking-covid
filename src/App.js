@@ -1,62 +1,55 @@
-import React, { useEffect, useMemo } from 'react';
-import { sortBy } from 'lodash';
-import CountrySelector from './components/CountrySelector';
-import { getCountries, getReportByCountry } from './apis';
-import Summary from './components/Summary';
-import Highlight from './components/Highlight';
-import { Container, Typography } from '@material-ui/core';
-import '@fontsource/roboto';
-import moment from 'moment';
+import { useEffect, useMemo, useCallback, useState } from "react";
+import CountrySelector from "./components/CountrySelector";
+import { getCountries, getReportByCountry } from "./apis";
+import Summary from "./components/Summary";
+import Highlight from "./components/Highlight";
+import { Box, Container, Typography } from "@material-ui/core";
+import "@fontsource/roboto";
+import moment from "moment";
 
 const App = () => {
-  const [countries, setCountries] = React.useState([]);
-  const [selectedCountryId, setSelectedCountryId] = React.useState('');
-  const [report, setReport] = React.useState([]);
+  const [countries, setCountries] = useState([]);
+  const [selectedCountryId, setSelectedCountryId] = useState("");
+  const [report, setReport] = useState([]);
 
   useEffect(() => {
-    getCountries().then((res) => {
-      const { data } = res;
-      const countries = sortBy(data, 'Country');
+    const getDataCountry = async () => {
+      const countries = await getCountries();
       setCountries(countries);
-      setSelectedCountryId('jp');
-    });
+      setSelectedCountryId("jp");
+    };
+    getDataCountry();
   }, []);
 
-  const handleOnChange = React.useCallback((e) => {
+  const handleOnChange = useCallback((e) => {
     setSelectedCountryId(e.target.value);
   }, []);
 
   useEffect(() => {
-    if (selectedCountryId) {
-      const selectedCountry = countries.find(
-        (country) => country.ISO2 === selectedCountryId.toUpperCase()
-      );
-      getReportByCountry(selectedCountry.Slug).then((res) => {
-        // remove last item = current date
-        res.data.pop();
-        setReport(res.data);
-      });
-    }
+    if (!selectedCountryId) return;
+    const selectedCountry = countries.find(
+      (country) => country.ISO2 === selectedCountryId.toUpperCase()
+    );
+    const getReportDataByCountry = async () => {
+      const country = await getReportByCountry(selectedCountry.Slug);
+      setReport(country);
+    };
+    getReportDataByCountry()
   }, [selectedCountryId, countries]);
 
   const summary = useMemo(() => {
     if (report && report.length) {
-      const latestData = report[report.length - 1];
+      const latestData = report[report.length - 2];
       return [
         {
-          title: 'Số ca nhiễm',
+          title: "感染者数",
           count: latestData.Confirmed,
-          type: 'confirmed',
+          type: "confirmed",
         },
         {
-          title: 'Khỏi',
-          count: latestData.Recovered,
-          type: 'recovered',
-        },
-        {
-          title: 'Tử vong',
+          title: "死亡者数",
           count: latestData.Deaths,
-          type: 'death',
+          type: "death",
         },
       ];
     }
@@ -65,10 +58,10 @@ const App = () => {
 
   return (
     <Container style={{ marginTop: 20 }}>
-      <Typography variant='h2' component='h2'>
-        Số liệu COVID-19
+      <Typography variant="h2" component="h2">
+        新型コロナウイルス感染症(COVID‑19)
       </Typography>
-      <Typography>{moment().format('LLL')}</Typography>
+      <Box component='p' sx={{mb:3}}>{moment().format("LLL")}</Box>
       <CountrySelector
         handleOnChange={handleOnChange}
         countries={countries}

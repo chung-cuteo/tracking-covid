@@ -2,11 +2,11 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import HighlightCard from './HighlightCard';
 
-export default function Highlight({ summary }) {
+const Highlight =({ summary }) => {
   return (
     <Grid container spacing={3}>
       {summary.map((data) => (
-        <Grid item sm={4} xs={12}>
+        <Grid item sm={6} xs={12} key={data.title}>
           <HighlightCard
             title={data.title}
             count={data.count}
@@ -17,3 +17,5 @@ export default function Highlight({ summary }) {
     </Grid>
   );
 }
+
+export default Highlight

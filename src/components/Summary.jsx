@@ -5,17 +5,20 @@ import { getMapDataByCountryId } from '../apis';
 import LineChart from './LineChart';
 import HighMaps from './HighMaps';
 
-export default function Summary({ countryId, report }) {
+const Summary = ({ countryId, report }) => {
   const [mapData, setMapData] = useState({});
 
   useEffect(() => {
-    if (countryId) {
-      getMapDataByCountryId(countryId)
-        .then((res) => {
-          setMapData(res);
-        })
-        .catch((err) => console.log({ err }));
+    if (!countryId) return
+    const getCountryId = async () => {
+      try {
+      const res = await getMapDataByCountryId(countryId)
+      setMapData(res);
+      } catch (error) {
+        console.log(error)
+      }
     }
+    getCountryId()
   }, [countryId]);
 
   return (
@@ -31,3 +34,4 @@ export default function Summary({ countryId, report }) {
     </div>
   );
 }
+export default  Summary

@@ -3,8 +3,6 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsMap from 'highcharts/modules/map';
 import { cloneDeep } from 'lodash';
-
-// Load Highcharts modules
 highchartsMap(Highcharts);
 
 const initOptions = {
@@ -34,7 +32,7 @@ const initOptions = {
   },
   series: [
     {
-      name: 'Dân số',
+      name: '人口',
       joinBy: ['hc-key', 'key'],
     },
   ],
