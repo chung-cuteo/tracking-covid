@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Button, ButtonGroup } from '@material-ui/core';
 
 const generateOptions = (data) => {
-  const categories = data.map((item) => moment(item.Date).format('DD/MM/YYYY'));
+  const categories = data.map((item) => moment(item.Date).format('YYYY/DD/MM'));
 
   return {
     chart: {
@@ -55,7 +55,6 @@ const generateOptions = (data) => {
 export default function LineChart({ data }) {
   const [options, setOptions] = useState({});
   const [reportType, setReportType] = useState('all');
-  console.log({ data });
 
   useEffect(() => {
     let customData = [];

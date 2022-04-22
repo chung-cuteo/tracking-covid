@@ -4,7 +4,6 @@ import CountUp from 'react-countup';
 
 const useStyles = makeStyles({
   wrapper: (props) => {
-    console.log({ props });
     if (props.type === 'confirmed') return { borderLeft: '5px solid #c9302c' };
     if (props.type === 'recovered') return { borderLeft: '5px solid #28a745' };
     else return { borderLeft: '5px solid gray' };

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 
 import { getMapDataByCountryId } from '../apis';
-import LineChart from '../Charts/LineChart';
-import HighMaps from '../Charts/HighMaps';
+import LineChart from './LineChart';
+import HighMaps from './HighMaps';
 
 export default function Summary({ countryId, report }) {
   const [mapData, setMapData] = useState({});

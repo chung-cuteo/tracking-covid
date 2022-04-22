@@ -1,15 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { sortBy } from 'lodash';
 import CountrySelector from './components/CountrySelector';
-import { getCountries, getReportByCountry } from './components/apis';
+import { getCountries, getReportByCountry } from './apis';
 import Summary from './components/Summary';
 import Highlight from './components/Highlight';
 import { Container, Typography } from '@material-ui/core';
 import '@fontsource/roboto';
 import moment from 'moment';
-import 'moment/locale/vi';
-
-moment.locale('vi');
 
 const App = () => {
   const [countries, setCountries] = React.useState([]);
@@ -21,7 +18,7 @@ const App = () => {
       const { data } = res;
       const countries = sortBy(data, 'Country');
       setCountries(countries);
-      setSelectedCountryId('vn');
+      setSelectedCountryId('jp');
     });
   }, []);
 
@@ -35,7 +32,6 @@ const App = () => {
         (country) => country.ISO2 === selectedCountryId.toUpperCase()
       );
       getReportByCountry(selectedCountry.Slug).then((res) => {
-        console.log('getReportByCountry', { res });
         // remove last item = current date
         res.data.pop();
         setReport(res.data);
